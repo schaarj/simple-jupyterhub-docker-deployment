@@ -33,7 +33,8 @@ RUN mkdir -p ${CONDA_DIR} \
 
 # Install dockerspawner, oauth, postgres
 RUN /opt/conda/bin/conda install -yq psycopg2 && \
-    /opt/conda/bin/conda clean -tipsy && \
+    # /opt/conda/bin/conda clean -tipsy && \
+    /opt/conda/bin/conda clean --all -f -y && \
     /opt/conda/bin/pip install --no-cache-dir \
        oauthenticator \
        dockerspawner

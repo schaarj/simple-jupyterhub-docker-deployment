@@ -34,13 +34,14 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:rw"
       # Bind Docker volume on host for JupyterHub database and cookie secrets
       - "data:${DATA_VOLUME_CONTAINER}"
-      - "/etc/shadow:/etc/shadow:ro"
-      - "/etc/passwd:/etc/passwd:ro"
-      - "<path_to_the_certificate>:/srv/jupyterhub/secrets/jupyterhub.crt:ro"
-      - "<path_to_the_private_key>:/srv/jupyterhub/secrets/jupyterhub.key:ro"
+      #- "/home/pmdadmin/git-repositories/jupyterhub-docker-deployment/data/ubuntu-on-docker/shadow:/etc/shadow:ro"
+      #- "/home/pmdadmin/git-repositories/jupyterhub-docker-deployment/data/ubuntu-on-docker/passwd:/etc/passwd:ro"
+      - "/home/pmdadmin/git-repositories/simple-jupyterhub-docker-deployment/images.json:/srv/jupyterhub/images.json:ro"
+      - "/home/pmdadmin/git-repositories/jupyterhub-docker-deployment/data/certbot/conf/live/pyiron.material-digital.de/fullchain.pem:/srv/jupyterhub/secrets/jupyterhub.crt:ro"
+      - "/home/pmdadmin/git-repositories/jupyterhub-docker-deployment/data/certbot/conf/live/pyiron.material-digital.de/privkey.pem:/srv/jupyterhub/secrets/jupyterhub.key:ro"
 
-    ports:
-      - "443:443"
+        #   ports:
+        #- "443:443"
     links:
       - hub-db
     environment:
@@ -56,6 +57,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: hub-db
     env_file:
+      - secrets/hub.env
       - secrets/postgres.env
       - secrets/oauth.env
     command: >
@@ -63,14 +65,13 @@ services:
 
 volumes:
   data:
-    external:
-      name: ${DATA_VOLUME_HOST}
+    name: ${DATA_VOLUME_HOST}
+    external: true
   db:
-    external:
-      name: ${DB_VOLUME_HOST}
+    name: ${DB_VOLUME_HOST}
+    external: true
 
 networks:
   default:
-    external:
-      name: ${DOCKER_NETWORK_NAME}
-
+    external: true
+    name: cert_network

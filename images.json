@@ -1,0 +1,8 @@
+{
+  "pyiron": "pyiron/pyiron:latest",
+  "pyiron-base": "pyiron/base:latest",
+  "pyiron-atomistic": "pyiron/md:latest",
+  "pyiron-continuum": "pyiron/continuum:latest",
+  "pyiron-experimental": "pyiron/experimental:latest",
+  "PMD Demonstrator": "mbruns91/pmd-demonstator:latest"
+}
